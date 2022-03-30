@@ -1,11 +1,12 @@
 const express = require("express");
 const addInventory = require("./data/addInventory");
 const dotenv = require('dotenv');
-
+const connectDB = require("./config/db");
 
 const app = express();
 dotenv.config();
 
+connectDB();
 
 app.get("/", (req, res) => {
     res.send("API IS RUNNING..");
