@@ -2,7 +2,8 @@ const express = require("express");
 const addInventory = require("./data/addInventory");
 const dotenv = require('dotenv');
 const connectDB = require("./config/db");
-const useRoutes = require("./routes/userRoutes")
+const useRoutes = require("./routes/userRoutes");
+const { notFound, errorHandler } = require("./middlewares/errorMiddleware");
 
 const app = express();
 dotenv.config();
@@ -20,7 +21,10 @@ app.get('/api/addInventory', (req, res) => {
     res.json(addInventory)
 });
 
-app.use('/api/users',useRoutes)
+app.use('/api/users', useRoutes)
+
+app.use(notFound)
+app.use(errorHandler)
 
 const PORT = process.env.PORT || 5000;
 
