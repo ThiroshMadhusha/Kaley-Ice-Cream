@@ -12,26 +12,16 @@ const LoginScreen = ({history}) => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState(false)
+
+    
     const [loading, setLoading] = useState(false)
-
-    useEffect(() => {
-        const userInfo = localStorage.getItem("userInfo");
-
-        if (userInfo) {
-            history.push("/mynotes");
-        }
-      
-    }, [history])
-    
-    
-    
     const submitHandler = async (e) => {
         e.preventDefault()
         // console.log(email, password);
         try {
             const config = {
                 headers: {
-                    "Content-type":"application/json"
+                    "Content-type": "application/json"
                 }
             }
             setLoading(true)
@@ -53,13 +43,11 @@ const LoginScreen = ({history}) => {
             setError(error.response.data.message);
             setLoading(false);
         }
-    }
+    };
     return (
-        <MainScreen title="Login">
+        <MainScreen className="main" title="Login Page">
             <div className="loginContainer">
-                {error && <ErrorMessage variant="danger">
-                    {error}
-                </ErrorMessage>}
+                {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
 
                 {loading && <Loading />}
 
@@ -68,7 +56,7 @@ const LoginScreen = ({history}) => {
                         <Form.Label>Email address</Form.Label>
                         <Form.Control
                             type="email"
-                            value={ email }
+                            value={email}
                             placeholder="Enter The Email Address"
                             onChange={(e) => setEmail(e.target.value)}
                         />
@@ -78,14 +66,14 @@ const LoginScreen = ({history}) => {
                         <Form.Label>Password</Form.Label>
                         <Form.Control
                             type="password"
-                            value={ password }
+                            value={password}
                             placeholder="Enter Your Password"
                             onChange={(e) => setPassword(e.target.value)}
                         />
                     </Form.Group>
                    
                     <Button variant="primary" type="submit">
-                        Submit
+                        Login
                     </Button>
                 </Form>
                 <Col>

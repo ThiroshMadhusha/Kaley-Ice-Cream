@@ -3,6 +3,8 @@ import { Button, Container, Form, FormControl, Nav, Navbar, NavDropdown } from '
 import { Link } from 'react-router-dom';
 
 const Header = () => {
+
+  
     return (
       <Navbar bg="primary" expand="lg" variant="dark">
         <Container fluid>
@@ -19,13 +21,13 @@ const Header = () => {
               <Nav.Link href="#action1">Home</Nav.Link>
               <Nav.Link href="#action2">Dashboard</Nav.Link>
               <Nav.Link href="/inventory">
-                <Link to='/inventory'>
-                  Inventory
-                </Link>
+                <Link to="/inventory">Inventory</Link>
               </Nav.Link>
               <NavDropdown title="Inventory User" id="navbarScrollingDropdown">
                 <NavDropdown.Item href="#action3">My Profile</NavDropdown.Item>
-                <NavDropdown.Item href="#action4">Logout</NavDropdown.Item>
+                <NavDropdown.Item href="/">
+                  <Link to="/">Logout</Link>
+                </NavDropdown.Item>
               </NavDropdown>
             </Nav>
             <Nav className="m-auto">
