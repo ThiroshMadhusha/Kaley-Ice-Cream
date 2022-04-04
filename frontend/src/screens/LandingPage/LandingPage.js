@@ -23,16 +23,22 @@ const LandingPage = () => {
               <h1 className="title">Welcome To Kaley Ice Cream</h1>
             </div>
             <div className="buttonContainer">
-              <a href="/login">
-                <Button size="lg" className="loginbutton" variant="outline-primary">
+              <Link to="/login">
+                <Button
+                  size="lg"
+                  className="loginbutton"
+                  variant="outline-primary">
                   Login
                 </Button>
-              </a>
-              <a href="/register">
-                <Button size="lg" className="registerbutton" variant="outline-primary">
+              </Link>
+              <Link to="/register">
+                <Button
+                  size="lg"
+                  className="registerbutton"
+                  variant="outline-primary">
                   Register
                 </Button>
-              </a>
+              </Link>
             </div>
           </div>
         </Row>
