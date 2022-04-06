@@ -17,7 +17,7 @@ const App = () => (
         <Route path="/" element={<LandingPage />} exact></Route>
         <Route path="/login" element={<LoginScreen />} exact></Route>
         <Route path="/register" element={<RegisterScreen />} exact></Route>
-        <Route path="/inventory" element={<Inventory />}></Route>
+        <Route path="/inventory" element={<Inventory />} exact></Route>
         <Route path="/test" element={<Test />}></Route>
       </Routes>
     </main>
