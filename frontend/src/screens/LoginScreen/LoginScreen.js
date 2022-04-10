@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import { Button, Col, Form, Row } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import MainScreen from '../../components/MainScreen';
+import React, { useEffect, useState } from "react";
+import { Button, Col, Form, Row } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import MainScreen from "../../components/MainScreen";
 import "./LoginScreen.css";
-import Loading from '../../components/Loading';
-import ErrorMessage from '../../components/ErrorMessage';
+import Loading from "../../components/Loading";
+import ErrorMessage from "../../components/ErrorMessage";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from '../../actions/userActions';
+import { login } from "../../actions/userActions";
 
 function LoginScreen({ history }) {
   const [email, setEmail] = useState("");
@@ -19,7 +19,8 @@ function LoginScreen({ history }) {
 
   useEffect(() => {
     if (userInfo) {
-      history.push("/inventory");
+      // history.push("/inventory");
+      window.location.href = "/inventory";
     }
   }, [history, userInfo]);
 
@@ -42,6 +43,7 @@ function LoginScreen({ history }) {
               type="email"
               value={email}
               placeholder="Enter The Email Address"
+              required
               onChange={(e) => setEmail(e.target.value)}
             />
           </Form.Group>
@@ -52,11 +54,12 @@ function LoginScreen({ history }) {
               type="password"
               value={password}
               placeholder="Enter Your Password"
+              required
               onChange={(e) => setPassword(e.target.value)}
             />
           </Form.Group>
 
-          <Button variant="primary" type="submit">
+          <Button className="button" variant="" type="submit">
             Login
           </Button>
         </Form>

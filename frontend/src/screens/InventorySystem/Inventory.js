@@ -34,7 +34,7 @@ const Inventory = () => {
           <Button
             style={{ margineLeft: 10, marginBottom: 6 }}
             size="lg"
-            variant="info"
+            variant="primary"
           >
             Create New Invenntory
           </Button>
@@ -58,10 +58,7 @@ const Inventory = () => {
                   >
                     <Accordion.Item eventKey="0">
                       <Accordion.Header>
-                        <Button
-                          variant="warning"
-                          className="mx-2"
-                        >
+                        <Button variant="warning" className="mx-2">
                           View
                         </Button>
                         View Record
@@ -85,6 +82,14 @@ const Inventory = () => {
                       onClick={() => deleteHandler(addinventorydata._id)}
                     >
                       Delete
+                    </Button>
+
+                    <Button
+                      variant="info"
+                      className="mx-2"
+                      onClick={() => deleteHandler(addinventorydata._id)}
+                    >
+                      Report
                     </Button>
                   </div>
                 </Card.Header>
