@@ -91,6 +91,7 @@ const DeleteInventory = asyncHandler(async (req, res) => {
   if (inventory) {
     await inventory.remove();
     res.json({ message: "Inventory Item Removed Successfully" });
+    
   } else {
     res.status(404);
     throw new Error("Inventory Item Is Not Found");

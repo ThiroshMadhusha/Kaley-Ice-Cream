@@ -4,7 +4,8 @@ const {
     getInventoryById,
     getInventorys,
     createInventory,
-    UpdateInventory
+    UpdateInventory,
+    DeleteInventory
 } = require("../controllers/inventoryController");
 const { protect } = require("../middlewares/authMiddleware");
 const router = express.Router();
