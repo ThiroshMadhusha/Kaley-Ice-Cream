@@ -25,7 +25,7 @@ app.get('/api/addInventory', (req, res) => {
 });
 
 app.use('/api/users', useRoutes)
-app.use("/api/addInventory", inventoryRoutes);
+app.use("/api/addInventory", inventoryRoutes); 
 
 app.use(notFound)
 app.use(errorHandler)
