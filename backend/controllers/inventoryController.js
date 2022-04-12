@@ -55,35 +55,54 @@ const getInventoryById = asyncHandler(async (req, res) => {
 
 const UpdateInventory = asyncHandler(async (req, res) => {
   const { ingredents, flavour, temparature, indate, outdate, freazerid } = req.body;
-  
+
   const inventory = await Inventory.findById(req.params.id);
 
   if (inventory.user.toString() !== req.user._id.toString()) {
     res.status(401);
     throw new Error("You can't perform this action");
   }
+
   if (inventory) {
-    noinventoryte.ingredents = ingredents;
+    inventory.ingredents = ingredents;
     inventory.flavour = flavour;
     inventory.temparature = temparature;
-    noinventoryte.indate = indate;
+    inventory.indate = indate;
     inventory.outdate = outdate;
     inventory.freazerid = freazerid;
 
     const updatedInventory = await inventory.save();
     res.json(updatedInventory);
+
   } else {
     res.status(404);
-    throw new Error("Note not found");
+    throw new Error("Inventory Item Is Not Found");
   }
 });
 
+const DeleteInventory = asyncHandler(async (req, res) => {
+  const inventory = await Inventory.findById(req.params.id);
+  
+  if (inventory.user.toString() !== req.user._id.toString()) {
+    res.status(401);
+    throw new Error("You can't perform this action");
+  }
+
+  if (inventory) {
+    await inventory.remove();
+    res.json({ message: "Inventory Item Removed Successfully" });
+  } else {
+    res.status(404);
+    throw new Error("Inventory Item Is Not Found");
+  }
+});
 
 module.exports = {
   getInventorys,
   createInventory,
   getInventoryById,
   UpdateInventory,
+  DeleteInventory,
 };
 
 // getNotes = getInventory

@@ -13,7 +13,7 @@ const router = express.Router();
 
 router.route("/").get(protect, getInventorys);
 router.route("/create").post(protect, createInventory);
-router.route("/:id").get(getInventoryById).put(protect, UpdateInventory);
+router.route("/:id").get(getInventoryById).put(protect, UpdateInventory).delete(protect, DeleteInventory);
 //     .get()
 //     .put()
 //     .delete();
