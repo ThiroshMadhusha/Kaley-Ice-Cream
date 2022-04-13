@@ -9,6 +9,7 @@ const protect = asyncHandler(async (req, res, next) => {
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer")
+    // use this token "Bearer" it check by user to backend to frontend
   ) {
     try {
       token = req.headers.authorization.split(" ")[1];

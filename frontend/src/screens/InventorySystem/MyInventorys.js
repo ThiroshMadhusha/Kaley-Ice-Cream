@@ -1,36 +1,55 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Accordion, Badge, Button, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import MainScreen from '../../components/MainScreen';
-import axios from 'axios';
+import { useDispatch, useSelector } from "react-redux";
+import { listInventorys } from '../../actions/inventoryActions';
+import Loading from '../../components/Loading';
+import ErrorMessage from '../../components/ErrorMessage';
 
-const Inventory = () => {
 
-  const [innventorydata, setaddinventorydata] = useState([]);
+const MyInventorys = () => {
 
+  const dispatch = useDispatch();
+
+  const inventoryList = useSelector((state) => state.inventoryList);
+
+  const { loading, inventorys, error } = inventoryList;
+
+  const userLogin = useSelector(state => state.userLogin);
+  const { userInfo } = userLogin;
+
+  const inventoryCreate = useSelector((state) => state.inventoryCreate);
+  const { success: successCreate } = inventoryCreate;
+
+  // const [inventorys, setInventorys] = useState([]);
 
     const deleteHandler = (id) => {
         if (window.confirm("Are You Sure ?")) {
-
-
         }
   };
+  // const fetchInventorys = async () => {
+  //   const { data } = await axios.get("/api/inventorys");
+  //   setInventorys(data);
+  // };
+  
+  // const history = useHistory();
+  console.log(inventorys);
 
-  const fetchInventory = async () => {
-    
-    const { data } = await axios.get("/api/addInventory");
-    setaddinventorydata(data);
-  };
-
-  console.log(innventorydata);
   useEffect(() => {
-    fetchInventory();
-  }, [])
+    dispatch(listInventorys());
+    // fetchInventorys();
+    
+    if (!userInfo) {
+      // history.push("/");
+    }
+  }, [dispatch, successCreate, userInfo]);
   
 
     return (
       <MainScreen title="Inventory Management System">
-        <Link to="createinventory">
+        {console.log(inventorys)}
+        <Link to="/createinventory">
           <Button
             style={{ margineLeft: 10, marginBottom: 6 }}
             size="lg"
@@ -39,10 +58,13 @@ const Inventory = () => {
             Create New Invenntory
           </Button>
         </Link>
-        {/* inventorydata = notes */}
-        {/* addinventorydata = note */}
-        {innventorydata.map((addinventorydata) => (
-          <Accordion key={addinventorydata._id}>
+
+        {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
+
+        {loading && <Loading />}
+
+        {inventorys?.reverse().map((inventory) => (
+          <Accordion key={inventory._id}>
             <Accordion.Item eventKey="0">
               <Card style={{ margin: 10 }}>
                 <Card.Header style={{ display: "flex" }}>
@@ -63,7 +85,7 @@ const Inventory = () => {
                         </Button>
                         View Record
                       </Accordion.Header>
-                      <Accordion.Body>{addinventorydata.title}</Accordion.Body>
+                      <Accordion.Body>{inventory.freazerid}</Accordion.Body>
                     </Accordion.Item>
                   </span>
 
@@ -71,7 +93,7 @@ const Inventory = () => {
                     <Button
                       variant="success"
                       className="mx-2"
-                      href={`/addinventorydata/${addinventorydata._id}`}
+                      href={`/inventory/${inventory._id}`}
                     >
                       Update
                     </Button>
@@ -79,7 +101,7 @@ const Inventory = () => {
                     <Button
                       variant="danger"
                       className="mx-2"
-                      onClick={() => deleteHandler(addinventorydata._id)}
+                      onClick={() => deleteHandler(inventory._id)}
                     >
                       Delete
                     </Button>
@@ -87,7 +109,7 @@ const Inventory = () => {
                     <Button
                       variant="info"
                       className="mx-2"
-                      onClick={() => deleteHandler(addinventorydata._id)}
+                      onClick={() => deleteHandler(inventory._id)}
                     >
                       Report
                     </Button>
@@ -97,14 +119,20 @@ const Inventory = () => {
                   <Card.Body>
                     <h4>
                       <Badge variant="success">
-                        Category - {addinventorydata.category}
+                        Category - {inventory.category}
                       </Badge>
                     </h4>
 
                     <blockquote className="blockquote mb-0">
-                      <p>{addinventorydata.content}</p>
+                      <p>{inventory.flavour}</p>
+                      <p>{inventory.temparature}</p>
+                      <p>{inventory.ingredients}</p>
+
                       <footer className="blockquote-footer">
-                        Create On - date
+                        Create On{" "}
+                        <cite freazerid="Source Freazerid">
+                          {inventory.createdAt.substring(0, 10)}
+                        </cite>
                       </footer>
                     </blockquote>
                   </Card.Body>
@@ -117,4 +145,4 @@ const Inventory = () => {
     );
 }
 
-export default Inventory
+export default MyInventorys;

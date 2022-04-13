@@ -7,7 +7,11 @@ const inventorySchema = mongoose.Schema(
       required: true,
       ref: "User",
     },
-    ingredents: {
+    freazerid: {
+      type: String,
+      required: true,
+    },
+    category: {
       type: String,
       required: true,
     },
@@ -19,15 +23,7 @@ const inventorySchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    indate: {
-      type: String,
-      required: true,
-    },
-    outdate: {
-      type: String,
-      required: true,
-    },
-    freazerid: {
+    ingredients: {
       type: String,
       required: true,
     },

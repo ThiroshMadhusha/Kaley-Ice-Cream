@@ -13,24 +13,20 @@ const getInventorys = asyncHandler(async (req, res) => {
 });
 
 const createInventory = asyncHandler(async (req, res) => {
-  const { ingredents, flavour, temparature, indate, outdate, freazerid } = req.body;
+  const { ingredients, flavour, temparature, freazerid, category } = req.body;
 
-  if (!ingredents || !flavour || !temparature || !indate || !outdate || !freazerid) {
-    
+  if (!ingredients || !flavour || !temparature || !freazerid || !category) {
     res.status(400);
     throw new Error("Please Fill all the feilds");
-    
   } else {
-
     // req.user comming from middleware
     const inventory = new Inventory({
       user: req.user._id,
-      ingredents,
+      ingredients,
       flavour,
       temparature,
-      indate,
-      outdate,
       freazerid,
+      category,
     });
 
     const createdInventory = await inventory.save();
@@ -54,7 +50,8 @@ const getInventoryById = asyncHandler(async (req, res) => {
 );
 
 const UpdateInventory = asyncHandler(async (req, res) => {
-  const { ingredents, flavour, temparature, indate, outdate, freazerid } = req.body;
+  const { ingredients, flavour, temparature, freazerid, category } =
+    req.body;
 
   const inventory = await Inventory.findById(req.params.id);
 
@@ -64,12 +61,11 @@ const UpdateInventory = asyncHandler(async (req, res) => {
   }
 
   if (inventory) {
-    inventory.ingredents = ingredents;
+    inventory.ingredients = ingredients;
     inventory.flavour = flavour;
     inventory.temparature = temparature;
-    inventory.indate = indate;
-    inventory.outdate = outdate;
     inventory.freazerid = freazerid;
+    inventory.category = category;
 
     const updatedInventory = await inventory.save();
     res.json(updatedInventory);

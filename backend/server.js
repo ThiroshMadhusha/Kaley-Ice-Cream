@@ -1,5 +1,5 @@
 const express = require("express");
-const addInventory = require("./data/addInventory");
+const inventorys = require("./data/inventorys");
 const dotenv = require('dotenv');
 const connectDB = require("./config/db");
 const useRoutes = require("./routes/userRoutes");
@@ -20,12 +20,12 @@ app.get("/", (req, res) => {
 // addInventory=notes
 
 
-app.get('/api/addInventory', (req, res) => {
-    res.json(addInventory)
+app.get("/api/inventorys", (req, res) => {
+  res.json(inventorys);
 });
 
 app.use('/api/users', useRoutes)
-app.use("/api/addInventory", inventoryRoutes); 
+app.use("/api/inventorys", inventoryRoutes); 
 
 app.use(notFound)
 app.use(errorHandler)
