@@ -77,88 +77,94 @@ const MyInventorys = ({ search }) => {
         {loading && <Loading />}
         {loadingDelete && <Loading />}
 
-        {inventorys?.reverse().filter((filterInventory) => (
-          filterInventory.freazerid.toLowerCase().includes(search.toLowerCase())
-        )).map((inventory) => (
-          <Accordion key={inventory._id}>
-            <Accordion.Item eventKey="0">
-              <Card style={{ margin: 10 }}>
-                <Card.Header style={{ display: "flex" }}>
-                  <span
-                    style={{
-                      color: "black",
-                      textDecoration: "none",
-                      flex: 1,
-                      cursor: "pointer",
-                      alignSelf: "center",
-                      fontSize: 18,
-                    }}
-                  >
-                    <Accordion.Item eventKey="0">
-                      <Accordion.Header>
-                        <Button variant="warning" className="mx-2">
-                          View
-                        </Button>
-                        View Record
-                      </Accordion.Header>
-                      <Accordion.Body>{inventory.freazerid}</Accordion.Body>
-                    </Accordion.Item>
-                  </span>
-
-                  <div>
-                    <Button
-                      variant="success"
-                      className="mx-2"
-                      href={`/inventory/${inventory._id}`}
+        {inventorys
+          ?.reverse()
+          .filter((filterInventory) =>
+            filterInventory.freazerid
+              .toLowerCase()
+              .includes(search.toLowerCase())
+          )
+          .map((inventory) => (
+            <Accordion key={inventory._id}>
+              <Accordion.Item eventKey="0">
+                <Card style={{ margin: 10 }}>
+                  <Card.Header style={{ display: "flex" }}>
+                    <span
+                      style={{
+                        color: "black",
+                        textDecoration: "none",
+                        flex: 1,
+                        cursor: "pointer",
+                        alignSelf: "center",
+                        fontSize: 18,
+                      }}
                     >
-                      Update
-                    </Button>
+                      <Accordion.Item eventKey="0">
+                        <Accordion.Header>
+                          <Button variant="warning" className="mx-2">
+                            View
+                          </Button>
+                          View Record
+                        </Accordion.Header>
+                        <Accordion.Body>{inventory.freazerid}</Accordion.Body>
+                      </Accordion.Item>
+                    </span>
 
-                    <Button
-                      variant="danger"
-                      className="mx-2"
-                      onClick={() => deleteHandler(inventory._id)}
-                    >
-                      Delete
-                    </Button>
+                    <div>
+                      <Button
+                        variant="success"
+                        className="mx-2"
+                        href={`/inventory/${inventory._id}`}
+                      >
+                        Update
+                      </Button>
 
-                    <Button
-                      variant="info"
-                      className="mx-2"
-                      onClick={() => deleteHandler(inventory._id)}
-                    >
-                      Report
-                    </Button>
-                  </div>
-                </Card.Header>
-                <Accordion.Collapse eventKey="0">
-                  <Card.Body>
-                    <h4>
-                      <Badge variant="success">
-                        Category - {inventory.category}
-                      </Badge>
-                    </h4>
+                      <Button
+                        variant="danger"
+                        className="mx-2"
+                        onClick={() => deleteHandler(inventory._id)}
+                      >
+                        Delete
+                      </Button>
 
-                    <blockquote className="blockquote mb-0">
-                      <p>{inventory.flavour}</p>
-                      <br />
-                      <p>{inventory.temparature}</p>
-                      <br />
-                      <p>{inventory.ingredients}</p>
+                      <Button
+                        variant="info"
+                        className="mx-2"
+                        // onClick={() => deleteHandler(inventory._id)}
+                      >
+                        Report
+                      </Button>
+                    </div>
+                  </Card.Header>
+                  <Accordion.Collapse eventKey="0">
+                    <Card.Body>
+                      <h4>
+                        <Badge variant="success">
+                          Category - {inventory.category}
+                        </Badge>
+                      </h4>
 
-                      <footer className="blockquote-footer">
-                        Create On{" "}
-                        <cite freazerid="Source Freazerid">
-                          {inventory.createdAt.substring(0, 10)}
-                        </cite>
-                      </footer>
-                    </blockquote>
-                  </Card.Body>
-                </Accordion.Collapse>
-              </Card>
-            </Accordion.Item>
-          </Accordion>
-        ))}
+                      <blockquote className="blockquote mb-0">
+                        <p>{inventory.flavour}</p>
+                        <br />
+                        <p>{inventory.ingredients}</p>
+                        <br />
+                        <p>{inventory.temparature}</p>
+                        <br />
+
+                        <footer className="blockquote-footer">
+                          Create On{" "}
+                          <cite freazerid="Source Freazerid">
+                            {inventory.createdAt.substring(0, 10)}
+                          </cite>
+                        </footer>
+                      </blockquote>
+                    </Card.Body>
+                  </Accordion.Collapse>
+                </Card>
+              </Accordion.Item>
+            </Accordion>
+          ))}
       </MainScreen>
     );
 }

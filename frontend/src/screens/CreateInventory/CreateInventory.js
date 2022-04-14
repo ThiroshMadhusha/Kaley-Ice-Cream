@@ -101,6 +101,8 @@ function CreateInventory({ history }) {
                 onChange={(e) => setFlavour(e.target.value)}
               />
             </Form.Group>
+
+            
             <Form.Group controlId="temparature">
               <Form.Label>Temparature</Form.Label>
               <Form.Control

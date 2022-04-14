@@ -1,14 +1,9 @@
 const asyncHandler = require("express-async-handler");
 const res = require("express/lib/response");
 const Inventory = require("../models/inventoryModel");
-// Inventory=Note
-
 
 const getInventorys = asyncHandler(async (req, res) => {
-
-  // inventorys=notes
   const inventorys = await Inventory.find({ user: req.user._id });
-
   res.json(inventorys);
 });
 
@@ -30,14 +25,11 @@ const createInventory = asyncHandler(async (req, res) => {
     });
 
     const createdInventory = await inventory.save();
-    // note = inventory
-
     res.status(201).json(createdInventory);
   }
 });
 
 const getInventoryById = asyncHandler(async (req, res) => {
-
     const inventory = await Inventory.findById(req.params.id);
 
     if (inventory) {
@@ -45,13 +37,13 @@ const getInventoryById = asyncHandler(async (req, res) => {
 
     } else {
       res.status(404).json({ message: "Inventory Not Found" });
-    }
+  }
+  res.json(inventory);
   }
 );
 
 const UpdateInventory = asyncHandler(async (req, res) => {
-  const { ingredients, flavour, temparature, freazerid, category } =
-    req.body;
+  const { ingredients, flavour, temparature, freazerid, category } = req.body;
 
   const inventory = await Inventory.findById(req.params.id);
 
@@ -101,5 +93,3 @@ module.exports = {
   UpdateInventory,
   DeleteInventory,
 };
-
-// getNotes = getInventory

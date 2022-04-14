@@ -17,7 +17,7 @@ const App = () => {
   
   return (
     <BrowserRouter>
-      <Header setseaarch={setsearch} />
+      <Header setsearch={setsearch} />
       <main>
         <Routes>
           <Route path="/" element={<LandingPage />} exact></Route>
