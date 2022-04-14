@@ -3,17 +3,16 @@ import { Accordion, Badge, Button, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import MainScreen from '../../components/MainScreen';
 import { useDispatch, useSelector } from "react-redux";
-import { listInventorys } from '../../actions/inventoryActions';
+import { deleteInventoryAction, listInventorys } from '../../actions/inventoryActions';
 import Loading from '../../components/Loading';
 import ErrorMessage from '../../components/ErrorMessage';
 
 
-const MyInventorys = () => {
+const MyInventorys = ({ search }) => {
 
   const dispatch = useDispatch();
 
   const inventoryList = useSelector((state) => state.inventoryList);
-
   const { loading, inventorys, error } = inventoryList;
 
   const userLogin = useSelector(state => state.userLogin);
@@ -22,10 +21,21 @@ const MyInventorys = () => {
   const inventoryCreate = useSelector((state) => state.inventoryCreate);
   const { success: successCreate } = inventoryCreate;
 
+  const inventoryUpdate = useSelector((state) => state.inventoryUpdate);
+  const { success: successUpdate } = inventoryUpdate;
+
+  const inventoryDelete = useSelector((state) => state.inventoryDelete);
+  const {
+    loading: loadingDelete,
+    error: errorDelete,
+    success: successDelete,
+  } = inventoryDelete;
+
   // const [inventorys, setInventorys] = useState([]);
 
     const deleteHandler = (id) => {
-        if (window.confirm("Are You Sure ?")) {
+      if (window.confirm("Are You Sure ?")) {
+          dispatch(deleteInventoryAction(id));
         }
   };
   // const fetchInventorys = async () => {
@@ -34,16 +44,17 @@ const MyInventorys = () => {
   // };
   
   // const history = useHistory();
+
   console.log(inventorys);
 
   useEffect(() => {
     dispatch(listInventorys());
     // fetchInventorys();
-    
+
     if (!userInfo) {
       // history.push("/");
     }
-  }, [dispatch, successCreate, userInfo]);
+  }, [dispatch, successCreate, userInfo, successUpdate, successDelete]);
   
 
     return (
@@ -60,10 +71,15 @@ const MyInventorys = () => {
         </Link>
 
         {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
-
+        {errorDelete && (
+          <ErrorMessage variant="danger">{errorDelete}</ErrorMessage>
+        )}
         {loading && <Loading />}
+        {loadingDelete && <Loading />}
 
-        {inventorys?.reverse().map((inventory) => (
+        {inventorys?.reverse().filter((filterInventory) => (
+          filterInventory.freazerid.toLowerCase().includes(search.toLowerCase())
+        )).map((inventory) => (
           <Accordion key={inventory._id}>
             <Accordion.Item eventKey="0">
               <Card style={{ margin: 10 }}>
@@ -125,7 +141,9 @@ const MyInventorys = () => {
 
                     <blockquote className="blockquote mb-0">
                       <p>{inventory.flavour}</p>
+                      <br />
                       <p>{inventory.temparature}</p>
+                      <br />
                       <p>{inventory.ingredients}</p>
 
                       <footer className="blockquote-footer">

@@ -2,6 +2,9 @@ import {
   INVENTORYS_CREATE_FAIL,
   INVENTORYS_CREATE_REQUEST,
   INVENTORYS_CREATE_SUCCESS,
+  INVENTORYS_DELETE_FAIL,
+  INVENTORYS_DELETE_REQUEST,
+  INVENTORYS_DELETE_SUCCESS,
   INVENTORYS_LIST_FAIL,
   INVENTORYS_LIST_REQUEST,
   INVENTORYS_LIST_SUCCESS,
@@ -50,6 +53,22 @@ export const inventoryUpdateReducer = (state = {}, action) => {
     case INVENTORYS_UPDATE_SUCCESS:
       return { loading: false, success: true };
     case INVENTORYS_UPDATE_FAIL:
+      return { loading: false, error: action.payload, success: false };
+
+    default:
+      return state;
+  }
+};
+
+// Create Delete Reducer
+
+export const inventoryDeleteReducer = (state = {}, action) => {
+  switch (action.type) {
+    case INVENTORYS_DELETE_REQUEST:
+      return { loading: true };
+    case INVENTORYS_DELETE_SUCCESS:
+      return { loading: false, success: true };
+    case INVENTORYS_DELETE_FAIL:
       return { loading: false, error: action.payload, success: false };
 
     default:
