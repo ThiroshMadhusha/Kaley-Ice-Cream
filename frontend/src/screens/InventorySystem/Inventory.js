@@ -1,10 +1,13 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react';
 import { Accordion, Badge, Button, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import MainScreen from '../../components/MainScreen'
-import innventorydata, { } from "../../data/addInventory"
+import MainScreen from '../../components/MainScreen';
+import axios from 'axios';
 
 const Inventory = () => {
+
+  const [innventorydata, setaddinventorydata] = useState([]);
+
 
     const deleteHandler = (id) => {
         if (window.confirm("Are You Sure ?")) {
@@ -12,12 +15,16 @@ const Inventory = () => {
 
         }
   };
+
   const fetchInventory = async () => {
-    const data = await axios.get('http://localhost:5000/api/addInventory');
-    console.log(data);
+    
+    const { data } = await axios.get("/api/addInventory");
+    setaddinventorydata(data);
   };
+
+  console.log(innventorydata);
   useEffect(() => {
-    const data = await axios
+    fetchInventory();
   }, [])
   
 
@@ -32,9 +39,10 @@ const Inventory = () => {
             Create New Invenntory
           </Button>
         </Link>
-
+        {/* inventorydata = notes */}
+        {/* addinventorydata = note */}
         {innventorydata.map((addinventorydata) => (
-          <Accordion>
+          <Accordion key={addinventorydata._id}>
             <Accordion.Item eventKey="0">
               <Card style={{ margin: 10 }}>
                 <Card.Header style={{ display: "flex" }}>
