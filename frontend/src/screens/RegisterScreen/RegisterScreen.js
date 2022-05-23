@@ -1,13 +1,15 @@
-import axios from 'axios';
-import React, { useState } from 'react'
-import { Button, Col, Form, Row } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import ErrorMessage from '../../components/ErrorMessage';
-import Loading from '../../components/Loading';
-import MainScreen from '../../components/MainScreen'
+import React, { useEffect, useState } from "react";
+import { Button, Col, Form, Row } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { register } from "../../actions/userActions";
+import ErrorMessage from "../../components/ErrorMessage";
+import Loading from "../../components/Loading";
+import MainScreen from "../../components/MainScreen";
+import { useDispatch, useSelector } from "react-redux";
+import "./RegisterScreen.css";
 
-const RegisterScreen = () => {
 
+const RegisterScreen = ({ history }) => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [pic, setPic] = useState(
@@ -17,38 +19,28 @@ const RegisterScreen = () => {
   const [confirmpassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState(null);
   const [picMessage, setPicMessage] = useState(null);
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
 
-  const submitHandler = async (e) => {
+  const dispatch = useDispatch();
+
+  const userRegister = useSelector((state) => state.userRegister);
+  const { loading, error, userInfo } = userRegister;
+
+  useEffect(() => {
+    if (userInfo) {
+      // history.push("/inventory");
+      window.location.href = "/inventory";
+    }
+  }, [history, userInfo]);
+
+  const submitHandler = (e) => {
     e.preventDefault();
-
     if (password !== confirmpassword) {
       setMessage("Passwords do not match");
-    } else
-      setMessage(null)
-    try {
-      const config = {
-        headers: {
-          "Content-type": "application/json",
-        },
-      };
-      setLoading(true);
-
-      const { data } = await axios.post(
-        "/api/users",
-        { name, pic, email, password },
-        config
-        
-      );
-
-      setLoading(false);
-      localStorage.setItem("userInfo", JSON.stringify(data));
-
-      
-    } catch (error) {
-      setError(error.response.data.message);
-      
+    } else {
+      dispatch(register(name, email, password, pic));
+      if (userInfo.email) {
+        window.location.href = "/inventory";
+      }
     }
   };
 
@@ -59,7 +51,9 @@ const RegisterScreen = () => {
     setPicMessage(null);
 
     if (
-      pics.type === "image.jpeg" || pics.type === "image.jpg" || pics.type === "image/png"
+      pics.type === "image/jpeg" ||
+      pics.type === "image/jpg" ||
+      pics.type === "image/png"
     ) {
       const data = new FormData();
       data.append("file", pics);
@@ -97,6 +91,7 @@ const RegisterScreen = () => {
             <Form.Control
               type="name"
               placeholder="Enter Your Name"
+              required
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
@@ -107,6 +102,7 @@ const RegisterScreen = () => {
             <Form.Control
               type="email"
               placeholder="Enter email"
+              required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -117,6 +113,7 @@ const RegisterScreen = () => {
             <Form.Control
               type="password"
               placeholder="Enter The Password"
+              required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -127,6 +124,7 @@ const RegisterScreen = () => {
             <Form.Control
               type="password"
               placeholder="Confirm Your Password Again"
+              required
               value={confirmpassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
@@ -143,25 +141,26 @@ const RegisterScreen = () => {
               type="file"
               id="custom-file"
               label="Upload Your Profile Picture"
+              required
               custom
             />
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formBasicCheckbox">
+          {/* <Form.Group className="mb-3" controlId="formBasicCheckbox">
             <Form.Check type="checkbox" label="Check me out" />
-          </Form.Group>
-          <Button variant="success" type="submit">
+          </Form.Group> */}
+          <Button className="button" variant="" type="submit">
             Register
           </Button>
         </Form>
         <Row className="py-3">
           <Col>
-            Have an Account ? <Link to="/login">Login</Link>
+            Already have an Account ? <Link to="/login">Login</Link>
           </Col>
         </Row>
       </div>
     </MainScreen>
   );
-}
+};
 
 export default RegisterScreen;
